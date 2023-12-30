@@ -1,18 +1,12 @@
 pipeline {
     agent any
     tools {
-        jdk 'jdk17'
         nodejs 'node16'
     }
     stages {
-        stage('clean workspace') {
-            steps {
-                cleanWs()
-            }
-        }
         stage('Checkout from Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/Ashfaque-9x/a-youtube-clone-app.git'
+                git branch: 'main', url: 'https://github.com/sankar0812/youtube-clone-app.git'
             }
         }
         stage('Install Dependencies') {
