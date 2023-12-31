@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+    DOCKERHUB_CREDENTIALS = credentials('docker-hub-sankar')
+    }
     stages {
         stage('Checkout from Git') {
             steps {
@@ -9,11 +12,9 @@ pipeline {
         stage("Docker Build & Push"){
              steps{
                  script{
-                   withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker'){   
-                      sh "docker build -t youtube-clone ."
-                      sh "docker tag youtube-clone sankar0812/youtube-clone:latest "
-                      sh "docker push sankar0812/youtube-clone:latest "
-                    }
+                    sh "docker build -t sankar0812/youtube-clone:$BUILD_NUMBER ."
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    sh "docker push sankar0812/youtube-clone:$BUILD_NUMBER "
                 }
             }
         }
