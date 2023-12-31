@@ -6,18 +6,13 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/sankar0812/youtube-clone-app.git'
             }
         }
-        stage('Install Dependencies') {
-            steps {
-                sh "npm install"
-            }
-        }
         stage("Docker Build & Push"){
              steps{
                  script{
                    withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker'){   
                       sh "docker build -t youtube-clone ."
-                      sh "docker tag youtube-clone ashfaque9x/youtube-clone:latest "
-                      sh "docker push ashfaque9x/youtube-clone:latest "
+                      sh "docker tag youtube-clone sankar0812/youtube-clone:latest "
+                      sh "docker push sankar0812/youtube-clone:latest "
                     }
                 }
             }
